@@ -1,6 +1,7 @@
 package calculator;
 
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class AddCalculator {
 
@@ -12,5 +13,10 @@ public class AddCalculator {
 
     public String getInput() {
         return scanner.nextLine();
+    }
+
+    public Boolean checkOnlyNumber(String input) {
+        String regex = "\\d*";
+        return Pattern.matches(regex, input);
     }
 }
