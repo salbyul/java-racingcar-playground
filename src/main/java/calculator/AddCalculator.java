@@ -44,7 +44,8 @@ public class AddCalculator {
         }
         Character customDelimiter = getCustomDelimiter(input);
         String substring = input.substring(5);
-        return substring.split("\\" + customDelimiter);
+        String regex = String.format("\\%s", customDelimiter);
+        return substring.split(regex);
     }
 
     private boolean isContainsDefaultDelimiter(String input) {
@@ -52,10 +53,21 @@ public class AddCalculator {
     }
 
     public int add(String input) {
+        if (checkOnlyNumber(input)) {
+            return Integer.parseInt(input);
+        }
+        validateInput(input);
         String[] split = getSplit(input);
+        int[] parsedInts = parseInt(split);
+
+        return getSum(parsedInts);
+    }
+
+    private int getSum(int[] parsedInts) {
         int result = 0;
-        for (String s : split) {
-            result += Integer.parseInt(s);
+
+        for (int parsedInt : parsedInts) {
+            result += parsedInt;
         }
         return result;
     }
