@@ -68,7 +68,7 @@ public class AddCalculatorTest {
     void invalidCustomDelimiter(String input) {
         AddCalculator calculator = new AddCalculator(new Scanner(System.in));
         IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            Character delimiter = calculator.getCustomDelimiter(input);
+            calculator.getCustomDelimiter(input);
         });
         assertThat(exception).isInstanceOf(IllegalArgumentException.class);
         assertThat(exception.getMessage()).isEqualTo("잘못된 문자열입니다.");
