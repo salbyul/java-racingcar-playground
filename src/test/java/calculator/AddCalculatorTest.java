@@ -74,6 +74,24 @@ public class AddCalculatorTest {
         assertThat(exception.getMessage()).isEqualTo("잘못된 문자열입니다.");
     }
 
+    @ParameterizedTest
+    @DisplayName("구분자를 기준으로 숫자 구분")
+    @ValueSource(strings = {"1,2,3", "1:2:3"})
+    void separateNumberByDefaultDelimiter(String input) {
+        AddCalculator calculator = new AddCalculator(new Scanner(System.in));
+        String[] split = calculator.getSplit(input);
+        assertThat(split).containsExactly("1", "2", "3");
+    }
+
+    @ParameterizedTest
+    @DisplayName("커스텀 구분자를 기준으로 숫자 구분")
+    @ValueSource(strings = {"//;\\n1;2;3", "//=\\n1=2=3"})
+    void separateNumberByCustomDelimiter(String input) {
+        AddCalculator calculator = new AddCalculator(new Scanner(System.in));
+        String[] split = calculator.getSplit(input);
+        assertThat(split).containsExactly("1", "2", "3");
+    }
+
     public static InputStream generateInputStream(String input) {
         return new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
     }

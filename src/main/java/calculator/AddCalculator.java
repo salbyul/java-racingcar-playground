@@ -36,4 +36,14 @@ public class AddCalculator {
         }
         throw new IllegalArgumentException("잘못된 문자열입니다.");
     }
+
+    public String[] getSplit(String input) {
+        if (input.contains(",") || input.contains(":")) {
+            Character delimiter = getDelimiter(input);
+            return input.split(String.valueOf(delimiter));
+        }
+        Character customDelimiter = getCustomDelimiter(input);
+        String substring = input.substring(5);
+        return substring.split(String.valueOf(customDelimiter));
+    }
 }
