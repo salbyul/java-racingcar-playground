@@ -1,6 +1,5 @@
 package calculator;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -12,6 +11,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class AddCalculatorTest {
 
@@ -67,7 +67,7 @@ public class AddCalculatorTest {
     @CsvSource(value = {"1;2;3=;", "/q\\n10q20q30q"}, delimiter = '=')
     void invalidCustomDelimiter(String input) {
         AddCalculator calculator = new AddCalculator(new Scanner(System.in));
-        IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             calculator.getCustomDelimiter(input);
         });
         assertThat(exception).isInstanceOf(IllegalArgumentException.class);
@@ -99,6 +99,28 @@ public class AddCalculatorTest {
         AddCalculator calculator = new AddCalculator(new Scanner(System.in));
         int result = calculator.add(input);
         assertThat(result).isEqualTo(expectedResult);
+    }
+
+    @ParameterizedTest
+    @DisplayName("숫자 이외의 값 입력 시 예외 발생")
+    @ValueSource(strings = {"a,s,d,f", "q:w:e:r", "//(\\nq(w(e(", "//&\\n가&나&다"})
+    void notNumberInput(String input) {
+        AddCalculator calculator = new AddCalculator(new Scanner(System.in));
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            calculator.validateInput(input);
+        });
+        assertThat(exception.getMessage()).isEqualTo("양수인 숫자만 입력이 가능합니다.");
+    }
+
+    @ParameterizedTest
+    @DisplayName("음수 입력 시 예외 발생")
+    @ValueSource(strings = {"-1,-2,-3", "-10:10:365", "//;\\n9;-3;10"})
+    void isPositiveNumber(String input) {
+        AddCalculator calculator = new AddCalculator(new Scanner(System.in));
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            calculator.validateInput(input);
+        });
+        assertThat(exception.getMessage()).isEqualTo("양수인 숫자만 입력이 가능합니다.");
     }
 
     public static InputStream generateInputStream(String input) {

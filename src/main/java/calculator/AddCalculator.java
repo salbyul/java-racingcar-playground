@@ -38,13 +38,17 @@ public class AddCalculator {
     }
 
     public String[] getSplit(String input) {
-        if (input.contains(",") || input.contains(":")) {
+        if (isContainsDefaultDelimiter(input)) {
             Character delimiter = getDelimiter(input);
             return input.split(String.valueOf(delimiter));
         }
         Character customDelimiter = getCustomDelimiter(input);
         String substring = input.substring(5);
         return substring.split("\\" + customDelimiter);
+    }
+
+    private boolean isContainsDefaultDelimiter(String input) {
+        return input.contains(",") || input.contains(":");
     }
 
     public int add(String input) {
@@ -54,5 +58,36 @@ public class AddCalculator {
             result += Integer.parseInt(s);
         }
         return result;
+    }
+
+    public void validateInput(String input) {
+        String[] split = getSplit(input);
+        try {
+            int[] parsedInts = parseInt(split);
+            validateIsPositiveNumberArray(parsedInts);
+        } catch (NumberFormatException e) {
+            throw new RuntimeException("양수인 숫자만 입력이 가능합니다.");
+        }
+    }
+
+    private void validateIsPositiveNumberArray(int[] parsedInts) {
+        for (int number : parsedInts) {
+            validateIsPositiveNumber(number);
+        }
+    }
+
+    private void validateIsPositiveNumber(int number) {
+        if (number < 0) {
+            throw new RuntimeException("양수인 숫자만 입력이 가능합니다.");
+        }
+    }
+
+    private int[] parseInt(String[] split) {
+        int[] arr = new int[split.length];
+
+        for (int i = 0; i < split.length; i++) {
+            arr[i] = Integer.parseInt(split[i]);
+        }
+        return arr;
     }
 }
