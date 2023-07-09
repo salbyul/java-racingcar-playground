@@ -70,7 +70,6 @@ public class AddCalculatorTest {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             calculator.getCustomDelimiter(input);
         });
-        assertThat(exception).isInstanceOf(IllegalArgumentException.class);
         assertThat(exception.getMessage()).isEqualTo("잘못된 문자열입니다.");
     }
 
