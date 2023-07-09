@@ -44,6 +44,15 @@ public class AddCalculator {
         }
         Character customDelimiter = getCustomDelimiter(input);
         String substring = input.substring(5);
-        return substring.split(String.valueOf(customDelimiter));
+        return substring.split("\\" + customDelimiter);
+    }
+
+    public int add(String input) {
+        String[] split = getSplit(input);
+        int result = 0;
+        for (String s : split) {
+            result += Integer.parseInt(s);
+        }
+        return result;
     }
 }

@@ -92,6 +92,15 @@ public class AddCalculatorTest {
         assertThat(split).containsExactly("1", "2", "3");
     }
 
+    @ParameterizedTest
+    @DisplayName("구분된 숫자들 더하기")
+    @CsvSource(value = {"//;\\n1;2;3=6", "1,2,3=6", "10:20:30=60", "//!\\n3!6!9=18"}, delimiter = '=')
+    void addSplit(String input, int expectedResult) {
+        AddCalculator calculator = new AddCalculator(new Scanner(System.in));
+        int result = calculator.add(input);
+        assertThat(result).isEqualTo(expectedResult);
+    }
+
     public static InputStream generateInputStream(String input) {
         return new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
     }
