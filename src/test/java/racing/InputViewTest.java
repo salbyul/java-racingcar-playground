@@ -36,7 +36,7 @@ public class InputViewTest {
     }
 
     @ParameterizedTest
-    @DisplayName("숫자가 아닌 횟수 입력받기")
+    @DisplayName("숫자가 아닌 횟수 입력받을 때")
     @CsvSource(value = {"a", "-"})
     void validateNotNumber(String input) {
         System.setIn(generateInputStream(input));
