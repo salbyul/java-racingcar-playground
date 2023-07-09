@@ -41,9 +41,7 @@ public class InputViewTest {
     void validateNotNumber(String input) {
         System.setIn(generateInputStream(input));
         InputView inputView = new InputView(new Scanner(System.in));
-        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
-            inputView.getNumber();
-        });
+        RuntimeException exception = assertThrows(RuntimeException.class, inputView::getNumber);
         assertThat(exception.getMessage()).isEqualTo("숫자만 입력할 수 있습니다.");
     }
 
@@ -53,9 +51,7 @@ public class InputViewTest {
     void validateNotPositiveNumber(int input) {
         System.setIn(generateInputStream(input));
         InputView inputView = new InputView(new Scanner(System.in));
-        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
-            inputView.getNumber();
-        });
+        RuntimeException exception = assertThrows(RuntimeException.class, inputView::getNumber);
         assertThat(exception.getMessage()).isEqualTo("1 이상의 숫자만 입력할 수 있습니다.");
     }
 
