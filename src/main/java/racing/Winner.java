@@ -14,19 +14,31 @@ public class Winner {
     }
 
     public void setWinners(List<Car> cars) {
-        Queue<Car> sortedCars = new PriorityQueue<>((o1, o2) -> o2.getPosition() - o1.getPosition());
-        sortedCars.addAll(cars);
+        Queue<Car> sortedCars = getSortedCars(cars);
+        if (sortedCars.isEmpty()) {
+            return;
+        }
         Car firstWinner = sortedCars.poll();
         int max = firstWinner.getPosition();
         winners.add(firstWinner);
 
+        addWinner(sortedCars, max);
+    }
+
+    private void addWinner(Queue<Car> sortedCars, int max) {
         for (int i = 0; i < sortedCars.size(); i++) {
             Car poll = sortedCars.poll();
-            addWinnerAfterValidate(max, poll);
+            addIfValid(max, poll);
         }
     }
 
-    private void addWinnerAfterValidate(int max, Car car) {
+    private Queue<Car> getSortedCars(List<Car> cars) {
+        Queue<Car> sortedCars = new PriorityQueue<>((o1, o2) -> o2.getPosition() - o1.getPosition());
+        sortedCars.addAll(cars);
+        return sortedCars;
+    }
+
+    private void addIfValid(int max, Car car) {
         int position = car.getPosition();
         if (max == position) {
             winners.add(car);
