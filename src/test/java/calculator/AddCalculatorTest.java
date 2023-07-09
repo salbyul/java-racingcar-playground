@@ -1,5 +1,6 @@
 package calculator;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -41,6 +42,36 @@ public class AddCalculatorTest {
         AddCalculator calculator = new AddCalculator(new Scanner(System.in));
         Boolean result = calculator.checkOnlyNumber(input);
         assertThat(result).isEqualTo(expectedResult);
+    }
+
+    @ParameterizedTest
+    @DisplayName("구분자 확인")
+    @CsvSource(value = {"1,2,3=,", "10:20:30=:"}, delimiter = '=')
+    void getDelimiter(String input, Character expectedDelimiter) {
+        AddCalculator calculator = new AddCalculator(new Scanner(System.in));
+        Character delimiter = calculator.getDelimiter(input);
+        assertThat(delimiter).isEqualTo(expectedDelimiter);
+    }
+
+    @ParameterizedTest
+    @DisplayName("커스텀 구분자 확인")
+    @CsvSource(value = {"//;\\n1;2;3=;", "//?\\n10?20?30=?"}, delimiter = '=')
+    void getCustomDelimiter(String input, Character expectedDelimiter) {
+        AddCalculator calculator = new AddCalculator(new Scanner(System.in));
+        Character delimiter = calculator.getCustomDelimiter(input);
+        assertThat(delimiter).isEqualTo(expectedDelimiter);
+    }
+
+    @ParameterizedTest
+    @DisplayName("커스텀 구분자 잘못된 문자열 사용")
+    @CsvSource(value = {"1;2;3=;", "/q\\n10q20q30q"}, delimiter = '=')
+    void invalidCustomDelimiter(String input) {
+        AddCalculator calculator = new AddCalculator(new Scanner(System.in));
+        IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            Character delimiter = calculator.getCustomDelimiter(input);
+        });
+        assertThat(exception).isInstanceOf(IllegalArgumentException.class);
+        assertThat(exception.getMessage()).isEqualTo("잘못된 문자열입니다.");
     }
 
     public static InputStream generateInputStream(String input) {
