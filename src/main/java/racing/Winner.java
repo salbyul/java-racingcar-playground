@@ -17,7 +17,7 @@ public class Winner {
         return this.winners;
     }
 
-    public void addWinner(Car car) {
+    public void addWinner(final Car car) {
         winners.add(car);
     }
 }
