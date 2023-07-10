@@ -1,3 +1,10 @@
+## 기능 구현 목록
+- 자동차의 이름을 입력받기
+- 시도할 횟수를 입력받기
+- 실행 결과 출력
+- 우승자 출력
+
+---
 ## [NEXTSTEP 플레이그라운드의 미션 진행 과정](https://github.com/next-step/nextstep-docs/blob/master/playground/README.md)
 
 ---
