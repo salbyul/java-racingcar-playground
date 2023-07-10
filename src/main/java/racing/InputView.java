@@ -23,13 +23,13 @@ public class InputView {
         return Arrays.asList(splitCarNames);
     }
 
-    private void validateNoName(String carNames) {
+    private void validateNoName(final String carNames) {
         if (carNames.equals("")) {
             throw new IllegalArgumentException("자동차의 이름이 1개 이상 입력되어야 합니다.");
         }
     }
 
-    private void validateCarNameLength(String splitCarName) {
+    private void validateCarNameLength(final String splitCarName) {
         if (splitCarName.length() > 5) {
             throw new IllegalArgumentException("자동차의 이름은 5자를 초과할 수 없습니다.");
         }
@@ -42,13 +42,13 @@ public class InputView {
         return parsedNumberOfAttempts;
     }
 
-    private void validateNumberOfAttempts(int parsedNumberOfAttempts) {
+    private void validateNumberOfAttempts(final int parsedNumberOfAttempts) {
         if (parsedNumberOfAttempts < 1) {
             throw new IllegalArgumentException("1 이상의 숫자만 입력이 가능합니다.");
         }
     }
 
-    private int parseInt(String numberOfAttempts) {
+    private int parseInt(final String numberOfAttempts) {
         try {
             return Integer.parseInt(numberOfAttempts);
         } catch (NumberFormatException e) {
