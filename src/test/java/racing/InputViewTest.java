@@ -51,6 +51,38 @@ public class InputViewTest {
                 .hasMessage("자동차의 이름이 1개 이상 입력되어야 합니다.");
     }
 
+    @ParameterizedTest
+    @DisplayName("시도할 횟수 입력받기")
+    @ValueSource(strings = {"1", "10", "100"})
+    void getNumberOfAttempts(String input) {
+        System.setIn(generateInputStream(input));
+        InputView inputView = new InputView();
+        int numberOfAttempts = inputView.getNumberOfAttempts();
+        assertThat(numberOfAttempts).isEqualTo(Integer.parseInt(input));
+    }
+
+    @ParameterizedTest
+    @DisplayName("숫자가 아닌 값 입력 시 예외 발생")
+    @ValueSource(strings = {"strong", "+_+", ">.<", "/'].;["})
+    void notNumber(String input) {
+        System.setIn(generateInputStream(input));
+        InputView inputView = new InputView();
+        assertThatThrownBy(inputView::getNumberOfAttempts)
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("숫자만 입력할 수 있습니다.");
+    }
+
+    @ParameterizedTest
+    @DisplayName("양수가 아닌 숫자 입력시 예외 발생")
+    @ValueSource(strings = {"-1", "0"})
+    void notPositiveNumber(String input) {
+        System.setIn(generateInputStream(input));
+        InputView inputView = new InputView();
+        assertThatThrownBy(inputView::getNumberOfAttempts)
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("1 이상의 숫자만 입력이 가능합니다.");
+    }
+
     static InputStream generateInputStream(String input) {
         return new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
     }
