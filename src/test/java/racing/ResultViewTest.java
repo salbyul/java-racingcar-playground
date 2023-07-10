@@ -38,4 +38,24 @@ public class ResultViewTest {
         resultView.printResult(cars.getCars());
         assertThat(outputStream.toString()).isEqualTo("강감찬 : -\n이순신 : -\n율곡 이이 : -\n");
     }
+
+    @Test
+    @DisplayName("우승자 1명일 시 출력")
+    void printWinner() {
+        Cars cars = new Cars(Arrays.asList(new Car("강감찬", 1), new Car("이순신", 1), new Car("율곡 이이", 2)));
+        Game game = new Game(cars);
+        ResultView resultView = new ResultView();
+        resultView.printWinners(game.getWinners());
+        assertThat(outputStream.toString()).isEqualTo("율곡 이이가 최종 우승했습니다.\n");
+    }
+
+    @Test
+    @DisplayName("우승자 2명일 시 출력")
+    void printWinners() {
+        Cars cars = new Cars(Arrays.asList(new Car("강감찬", 2), new Car("이순신", 3), new Car("율곡 이이", 3)));
+        Game game = new Game(cars);
+        ResultView resultView = new ResultView();
+        resultView.printWinners(game.getWinners());
+        assertThat(outputStream.toString()).isEqualTo("이순신, 율곡 이이가 최종 우승했습니다.\n");
+    }
 }
