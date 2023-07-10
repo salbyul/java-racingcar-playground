@@ -6,8 +6,12 @@ public class Car {
     private final Position position;
 
     public Car(final String name) {
+        this(name, 0);
+    }
+
+    public Car(final String name, final int position) {
         this.name = new Name(name);
-        position = new Position(0);
+        this.position = new Position(position);
     }
 
     public void move(final int number) {
@@ -16,11 +20,15 @@ public class Car {
         }
     }
 
-    private boolean isGreaterThanThree(int number) {
+    private boolean isGreaterThanThree(final int number) {
         return number > 3;
     }
 
     public int getPosition() {
         return this.position.getPosition();
+    }
+
+    public String getName() {
+        return this.name.getName();
     }
 }
